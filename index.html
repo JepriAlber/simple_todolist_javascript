@@ -32,9 +32,9 @@
                             <td><input type="text" id="filter" class="form-control"></td>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody id="table-body-todo">
                         <tr>
-                            <td><button id="btn-remove" class="btn btn-warning">Done</button></td>
+                            <td><button class="btn btn-info">Done</button></td>
                             <td>Todo Description</td>
                         </tr>
                     </tbody>
@@ -45,9 +45,54 @@
     </div>
     <script>
         
-        const todolist = [];
+        const todolist = [
+            'default todolist belajar javascript',
+            'todo default todolist'
+        ];
 
-            
+
+            //fungsi digunakan untuk menghapus (menghendel) append todolist, yang mana todolist sebelumnya dihapus terlebihdahulu
+            function clearTodolist(){
+                const todolistBody = document.getElementById("table-body-todo");
+                //jika ada child tody maka hapus dulu semuanya
+                while (todolistBody.firstChild) {
+                    todolistBody.removeChild(todolistBody.firstChild);    
+                }
+            }
+
+            function displayTodolist(todolist){
+
+                //hapus dulu todolist sebelumnya
+                clearTodolist();
+
+                for (let i = 0; i < todolist.length; i++) {
+                    
+                    const todo = todolist[i];
+
+                    const tr        = document.createElement("tr");
+                    const tdButton  = document.createElement("td");
+                    tr.appendChild(tdButton);
+
+                    //membuat elemet button done
+                    const buttonDone = document.createElement("button");
+                    buttonDone.classList.add("btn");
+                    buttonDone.classList.add("btn-info");
+                    buttonDone.textContent = "Done";
+                    tdButton.appendChild(buttonDone);
+
+                    //membuat element untuk list todo
+                    const tdTodo    = document.createElement("td");
+                    tdTodo.textContent = todo;
+                    tr.appendChild(tdTodo);
+
+                    //menambahkan tr baru dengan todolist baru ke tbody
+                    const todolistBody = document.getElementById("table-body-todo");
+                    todolistBody.appendChild(tr);
+                
+                }
+                
+
+            }
 
             document.forms['todolist-form'].onsubmit = function(event){
                 event.preventDefault();
@@ -57,8 +102,10 @@
 
                 document.forms['todolist-form'].reset();
                 console.info(todolist);
+                displayTodolist(todolist);
             }
-
+            
+            displayTodolist(todolist);
     </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
 </body>
