@@ -50,29 +50,6 @@
             'todo default todolist'
         ];
 
-
-            function addTodolist(todo){
-                    const tr        = document.createElement("tr");
-                    const tdButton  = document.createElement("td");
-                    tr.appendChild(tdButton);
-
-                    //membuat elemet button done
-                    const buttonDone = document.createElement("button");
-                    buttonDone.classList.add("btn");
-                    buttonDone.classList.add("btn-info");
-                    buttonDone.textContent = "Done";
-                    tdButton.appendChild(buttonDone);
-
-                    //membuat element untuk list todo
-                    const tdTodo    = document.createElement("td");
-                    tdTodo.textContent = todo;
-                    tr.appendChild(tdTodo);
-
-                    //menambahkan tr baru dengan todolist baru ke tbody
-                    const todolistBody = document.getElementById("table-body-todo");
-                    todolistBody.appendChild(tr);
-            }
-
             //fungsi digunakan untuk menghapus (menghendel) append todolist, yang mana todolist sebelumnya dihapus terlebihdahulu
             function clearTodolist(){
                 const todolistBody = document.getElementById("table-body-todo");
@@ -80,6 +57,44 @@
                 while (todolistBody.firstChild) {
                     todolistBody.removeChild(todolistBody.firstChild);    
                 }
+            }
+
+            // fungsi untuk menghendel ketika menghapus todo tapa todolist 
+            function removeTodolist( index ){
+                //lalu hapus 1 record array saja
+                todolist.splice(index,1);
+
+                //ketika sudah dihapus tampikan data todolistnya lagi
+                displayTodolist();
+            }
+
+            //function untuk menghendel todo
+            function addTodolist( index, todo ){
+                const tr        = document.createElement("tr");
+                const tdButton  = document.createElement("td");
+                tr.appendChild(tdButton);
+
+                //membuat elemet button done
+                const buttonDone = document.createElement("button");
+                buttonDone.classList.add("btn");
+                buttonDone.classList.add("btn-info");
+                buttonDone.textContent = "Done";    
+
+                //aksi untuk menghapus todolist
+                buttonDone.onclick = function(event){
+                    removeTodolist(index)
+                }
+
+                tdButton.appendChild(buttonDone);
+
+                //membuat element untuk list todo
+                const tdTodo    = document.createElement("td");
+                tdTodo.textContent = todo;
+                tr.appendChild(tdTodo);
+
+                //menambahkan tr baru dengan todolist baru ke tbody
+                const todolistBody = document.getElementById("table-body-todo");
+                todolistBody.appendChild(tr);
             }
 
             function displayTodolist(){
@@ -97,7 +112,7 @@
 
                     //lalu bandingkan, apakah ditodo ada text yang input filter kalau ada tampilkan
                     if( todo.toLowerCase().includes(textFilterTodo) ){
-                        addTodolist(todo);
+                        addTodolist( i, todo );
                     }
                     
                 
